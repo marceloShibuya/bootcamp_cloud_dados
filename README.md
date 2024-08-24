@@ -6,6 +6,9 @@
 
 ## 2. Bucket Policy: Exemplo de Permissão de Leitura para Usuário Anônimo
 
+- **Bucket Policy:**
+   - Adicione uma política ao bucket para permitir que usuários anônimos leiam os arquivos. Um exemplo de política de leitura pública para um bucket S3 pode ser adicionado através do editor de políticas no console da AWS.
+
 ```json
 {
     "Version": "2012-10-17",
