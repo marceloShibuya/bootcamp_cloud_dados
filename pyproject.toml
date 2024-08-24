@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "bootcamp-cloud-dados"
+version = "0.1.0"
+description = ""
+authors = ["Marcelo Shibuya <marcelo.hshibuya@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+streamlit = "^1.37.1"
+pandas = "^2.2.2"
+numpy = "^2.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
