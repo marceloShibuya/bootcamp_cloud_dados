@@ -20,6 +20,7 @@ s3_client = boto3.client(
     region_name=AWS_REGION
 ) 
 
+
 # Lê os arquivos 
 def listar_arquivos(pasta: str) -> List[str]:
     """Lista todos os arquivos em uma pasta local."""
@@ -38,6 +39,7 @@ def upload_arquivos_para_s3(arquivos: List[str]) -> None:
         nome_arquivo: str = os.path.basename(arquivo)
         s3_client.upload_file(arquivo, BUCKET_NAME, nome_arquivo)
         print(f'{nome_arquivo} foi enviado para o S3.')
+
 
 # Deleta os arquivos da pasta local
 def deletar_arquivos_locais(arquivos: List[str]) -> None:
