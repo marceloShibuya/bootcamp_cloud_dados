@@ -29,6 +29,7 @@ def listar_arquivos(pasta: str) -> List[str]:
         caminho_completo = os.path.join(pasta, nome_arquivo)
         if os.path.isfile(caminho_completo):
             arquivos.append(caminho_completo)
+            print(f'Lendo o arquivo: {arquivos}')
     return arquivos
 
 
@@ -38,7 +39,7 @@ def upload_arquivos_para_s3(arquivos: List[str]) -> None:
     for arquivo in arquivos:
         nome_arquivo: str = os.path.basename(arquivo)
         s3_client.upload_file(arquivo, BUCKET_NAME, nome_arquivo)
-        print(f'{nome_arquivo} foi enviado para o S3.')
+        print(f'{arquivo} ------ {nome_arquivo} foi enviado para o S3.')
 
 
 # Deleta os arquivos da pasta local
@@ -54,7 +55,7 @@ def executar_backup(pasta: str) -> None:
     arquivos: List[str] = listar_arquivos(pasta)
     if arquivos:
         upload_arquivos_para_s3(arquivos)
-        deletar_arquivos_locais(arquivos)
+        #deletar_arquivos_locais(arquivos)
     else:
         print("Nenhum arquivo encontrado para backup.")
 
