@@ -60,5 +60,5 @@ def executar_backup(pasta: str) -> None:
         print("Nenhum arquivo encontrado para backup.")
 
 if __name__ == "__main__":
-    PASTA_LOCAL: str = 'download'  # Substitua pelo caminho da sua pasta local
+    PASTA_LOCAL: str = 'download'  
     executar_backup(PASTA_LOCAL)
