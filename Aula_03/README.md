@@ -302,9 +302,7 @@ As Instâncias Dedicadas são executadas em hardware físico dedicado exclusivam
 
 ---
 
-### Comparação dos Modelos de Pre
-
-ço
+### Comparação dos Modelos de Preço
 
 | Modelo de Preço       | Flexibilidade | Desconto em Relação ao On-Demand | Compromisso Necessário | Adequado para                                       |
 |-----------------------|---------------|-----------------------------------|------------------------|-----------------------------------------------------|
