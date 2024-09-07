@@ -186,3 +186,89 @@ As tags ajudam a organizar e identificar recursos relacionados ao grupo, facilit
 - **BusinessUnit:** Unidade de negócio relevante (ex: "Sales", "ProductDevelopment").
 - **Purpose:** Finalidade do grupo (ex: "DataProcessing", "ETLTasks").
 - **SecurityLevel:** Nível de segurança exigido (ex: "High", "Confidential").
+
+---
+
+### **10. Projeto: Criando Grupos, Usuários e Anexando Políticas no IAM**
+
+**Passo a Passo: Criando Grupos, Usuários e Anexando Políticas no IAM**
+
+#### **1. Criar os Grupos no IAM**
+
+1. **Acessar o Console IAM:**
+   - Faça login no console da AWS e navegue até o serviço **IAM (Identity and Access Management)**.
+
+2. **Criar o Grupo "EngenheiroDeDados":**
+   - No painel do IAM, selecione **"Grupos"** no menu lateral.
+   - Clique em **"Criar Novo Grupo"**.
+   - Nome do grupo: **EngenheiroDeDados**.
+   - **Anexar Políticas Diretamente:**
+     - **AmazonS3FullAccess**
+     - **AmazonEC2FullAccess**
+     - **AmazonVPCFullAccess**
+   - Clique em **"Criar Grupo"**.
+
+3. **Criar o Grupo "CientistaDeDados":**
+   - Repita o processo anterior.
+   - Nome do grupo: **CientistaDeDados**.
+   - **Anexar Políticas Diretamente:**
+     - **AmazonAthenaFullAccess**
+     - **AmazonGlueConsoleFullAccess**
+   - Clique em **"Criar Grupo"**.
+
+4. **Criar o Grupo "LambdaExecutors":**
+   - Repita o processo novamente.
+   - Nome do grupo: **LambdaExecutors**.
+   - **Anexar Políticas Diretamente:**
+     - **AWSLambdaBasicExecutionRole**
+   - Clique em **"Criar Grupo"**.
+
+#### **2. Criar os Usuários no IAM**
+
+1. **Criar Usuário 1 (Engenheiro de Dados):**
+   - No IAM, selecione **"Usuários"** no menu lateral.
+   - Clique em **"Adicionar Usuário"**.
+   - Nome do usuário: **Engenheiro1**.
+   - **Selecionar o Tipo de Acesso:**
+     - Marque **"Acesso programático"** e **"Acesso à AWS Management Console"**.
+     - Defina uma senha para o console.
+   - **Atribuir ao Grupo:**
+     - Selecione o grupo **"EngenheiroDeDados"**.
+   - Clique em **"Próximo"** e **"Criar Usuário"**.
+
+2. **Criar Usuário 2 (Engenheiro de Dados):**
+   - Repita o processo anterior.
+   - Nome do usuário: **Engenheiro2**.
+   - Atribua ao grupo **"EngenheiroDeDados"**.
+
+3. **Criar Usuário 3 (Cientista de Dados):**
+   - Repita o processo anterior.
+   - Nome do usuário: **Cientista1**.
+   - Atribua ao grupo **"CientistaDeDados"**.
+
+4. **Criar Usuário 4 (Lambda Executor):**
+   - Repita o processo anterior.
+   - Nome do usuário: **LambdaExecutor1**.
+   - **Atribuir ao Grupo:**
+     - Selecione o grupo **"LambdaExecutors"**.
+
+#### **3. Anexar Usuários aos Grupos e Roles**
+
+1. **Verificar Grupos e Políticas:**
+   - Navegue até a página de cada grupo (EngenheiroDeDados, CientistaDeDados, LambdaExecutors) e verifique se as políticas apropriadas foram anexadas.
+
+2. **Anexar Roles (para Lambda):**
+   - Para o usuário **LambdaExecutor1**, vá em **"Roles"** no menu do IAM.
+   - Crie uma nova role chamada **LambdaExecutionRole**.
+   - Anexe a política **"AmazonDynamoDBFullAccess"**.
+   - Atribua a role ao usuário **LambdaExecutor1**.
+
+#### **4. Revisão e Testes**
+
+1. **Verificar Acessos:**
+   - Faça login como cada usuário criado para verificar se as permissões e acessos aos serviços AWS estão funcionando conforme o esperado.
+   - Teste a criação e o gerenciamento de recursos em S3, EC2, VPC para engenheiros de dados, Athena e Glue para cientistas de dados, e execução de funções Lambda para o executor de Lambda.
+
+2. **Documentação e Tags:**
+   - Considere adicionar tags aos usuários e grupos para facilitar a organização e a gestão dentro da AWS.
+
