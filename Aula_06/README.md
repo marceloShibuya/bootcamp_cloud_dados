@@ -279,3 +279,11 @@ Adicione uma rota com destino `0.0.0.0/0` e selecione o Internet Gateway `corp-i
 **7) Associar a Tabela de Rota Privada à Subrede Privada**  
 Selecione a tabela de rota privada (`private-route-table`).  
 Vá para "Subnet Associations" e associe-a à `private-subnet-az1`.
+
+**8) Configurar Instância EC2 Pública**  
+Vá para "EC2" e clique em "Launch Instance".  
+Nomeie como `public-ec2-instance`, selecione Amazon Linux e o tipo `t2.micro`.  
+Escolha a sub-rede pública (`public-subnet-az1`) e habilite o IP público.  
+Crie um par de chaves (`corp-key-pair`) para SSH e salve.  
+Edite as configurações de segurança para liberar o acesso SSH.  
+Acesse a instância pública via terminal com o comando SSH usando o arquivo `.pem`.
