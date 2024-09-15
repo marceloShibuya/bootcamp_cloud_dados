@@ -287,3 +287,89 @@ Escolha a sub-rede pública (`public-subnet-az1`) e habilite o IP público.
 Crie um par de chaves (`corp-key-pair`) para SSH e salve.  
 Edite as configurações de segurança para liberar o acesso SSH.  
 Acesse a instância pública via terminal com o comando SSH usando o arquivo `.pem`.
+
+**9) Configurar Instância EC2 Privada**  
+Clique em "Launch Instance" novamente.  
+Nomeie como `private-ec2-instance`, selecione Amazon Linux e o tipo `t2.micro`.  
+Escolha a sub-rede privada (`private-subnet-az1`) e desabilite o IP público.  
+Use a mesma chave privada gerada anteriormente (`corp-key-pair`).  
+Edite as configurações de segurança para permitir o acesso SSH da instância pública.  
+Na instância pública, use o comando `vi corp-key.pem` para copiar a chave privada e acessar a instância privada via SSH.
+
+**10) Criar um Bucket S3**  
+No console AWS, vá para "S3" e crie um bucket, nomeando-o como `corp-data-bucket`.  
+Configure as credenciais AWS na instância privada com:  
+`aws configure`  
+Execute o comando `aws s3 ls` para listar os buckets.
+
+**11) Criar um VPC Endpoint**  
+No painel da VPC, vá para "Endpoints".  
+Clique em "Create Endpoint" e escolha o tipo Gateway.  
+Selecione o serviço `com.amazonaws.eu-west-1.s3` e escolha a VPC (`corp-vpc`).  
+Associe o endpoint à tabela de rota privada (`private-route-table`).
+
+**12) Associar o VPC Endpoint à Subrede Privada**  
+Garanta que o VPC Endpoint está associado corretamente com a sub-rede privada (`private-subnet-az1`).
+
+**13) Testar Operações no S3**  
+Na instância privada, teste a conectividade com o S3:  
+Para inserir um arquivo:  
+`aws s3 cp arquivo.txt s3://corp-data-bucket/`  
+Para deletar um arquivo:  
+`aws s3 rm s3://corp-data-bucket/arquivo.txt`
+
+**Conclusão**  
+Seguindo estes passos, você configurou um ambiente seguro na AWS onde as instâncias em sub-rede privada acessam o S3 sem sair do ambiente da AWS, utilizando o VPC Endpoint. 
+
+### Diagrama em Mermaid
+
+Aqui está o diagrama Mermaid da solução de configuração da VPC com VPC Endpoint para acesso ao S3:
+
+```mermaid
+graph TD
+    A[Usuário IAM com Permissão PowerUser] --> B[VPC - corp-vpc]
+    B --> C[Subrede Pública - public-subnet-az1]
+    B --> D[Subrede Privada - private-subnet-az1]
+    B --> E[Internet Gateway - corp-igw]
+    C --> F[Tabela de Rota Pública - public-route-table]
+    D --> G[Tabela de Rota Privada - private-route-table]
+    F --> E
+    H[EC2 Instância Pública - public-ec2-instance] --> C
+    I[EC2 Instância Privada - private-ec2-instance] --> D
+    J[VPC Endpoint - S3 Gateway] --> G
+    G --> D
+    I --> |Acesso SSH| H
+    K[S3 Bucket - corp-data-bucket] --> J
+    I --> |Acesso ao S3| K
+```
+
+### Checklist de Desenvolvimento
+
+#### Pré-Configuração
+- [ ] Criar um usuário IAM com permissão PowerUser (`project-admin-user`).
+
+#### Configuração da VPC e Subnets
+- [ ] Criar uma VPC (`corp-vpc`) com o range CIDR `10.0.0.0/16`.
+- [ ] Criar Subrede Pública (`public-subnet-az1`) com CIDR `10.0.1.0/24`.
+- [ ] Criar Subrede Privada (`private-subnet-az1`) com CIDR `10.0.2.0/24`.
+
+#### Configuração de Internet Gateway e Rotas
+- [ ] Criar um Internet Gateway (`corp-igw`) e associá-lo à VPC (`corp-vpc`).
+- [ ] Criar Tabela de Rota Pública (`public-route-table`) e associar à sub-rede pública (`public-subnet-az1`).
+- [ ] Criar Tabela de Rota Privada (`private-route-table`) e associar à sub-rede privada (`private-subnet-az1`).
+- [ ] Editar rotas da Tabela de Rota Pública para direcionar o tráfego `0.0.0.0/0` para o Internet Gateway (`corp-igw`).
+
+#### Configuração das Instâncias EC2
+- [ ] Configurar EC2 Instância Pública (`public-ec2-instance`) na sub-rede pública com IP público e criar um par de chaves (`corp-key-pair`).
+- [ ] Configurar EC2 Instância Privada (`private-ec2-instance`) na sub-rede privada sem IP público, usando o mesmo par de chaves.
+
+#### Configuração do S3 e VPC Endpoint
+- [ ] Criar um bucket S3 (`corp-data-bucket`).
+- [ ] Criar um VPC Endpoint do tipo Gateway para o S3 (`com.amazonaws.eu-west-1.s3`) e associar à tabela de rota privada (`private-route-table`).
+- [ ] Testar a conectividade da instância privada com o S3, incluindo operações de copiar e remover arquivos.
+
+#### Teste e Validação
+- [ ] Verificar acesso SSH entre a instância pública e privada.
+- [ ] Confirmar que a instância privada consegue acessar o S3 através do VPC Endpoint.
+
+Esse checklist cobre todos os passos do desenvolvimento e validação da configuração descrita, assegurando que o ambiente esteja seguro e funcional conforme as especificações.
