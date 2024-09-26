@@ -12,3 +12,26 @@ A combinação de instâncias EC2 com o Amazon RDS é amplamente utilizada para 
 - **Gerenciamento Simplificado**: O RDS cuida de atualizações, backups, e manutenção do banco de dados, liberando tempo para focar no desenvolvimento da aplicação.
 - **Segurança Avançada**: Com o uso de Security Groups, podemos restringir o acesso ao banco de dados, garantindo que apenas a instância EC2 tenha permissão para se conectar.
 - **Alto Desempenho**: O uso combinado de EC2 e RDS permite que aplicações sejam otimizadas para lidar com grandes volumes de requisições e operações de banco de dados.
+
+### **3. Passo a Passo para Configuração da Instância EC2**
+
+#### **3.1. Configurando a Instância EC2**
+
+1. **Acessar o Console EC2**:
+   - No console da AWS, navegue até **EC2** e clique em **"Launch Instance"**.
+
+2. **Escolher a AMI (Amazon Machine Image)**:
+   - Selecione uma AMI com Ubuntu Server (última versão LTS).
+
+3. **Escolher o Tipo de Instância**:
+   - Escolha um tipo de instância que atenda às necessidades do projeto (ex.: t2.micro para desenvolvimento ou t3.medium para produção).
+
+4. **Configuração de Rede**:
+   - Selecione a VPC e Sub-rede desejadas.
+   - Configure o Security Group permitindo acesso necessário, como SSH na porta 22 para administração e outras portas conforme a aplicação.
+
+5. **Configuração de Armazenamento**:
+   - Configure o armazenamento de acordo com o necessário para a aplicação (ex.: 30GB SSD).
+
+6. **Launch**:
+   - Revise as configurações e clique em **"Launch"**. Escolha um par de chaves para acesso SSH ou crie um novo.
